@@ -1,3 +1,4 @@
+import { UserButton } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
@@ -19,9 +20,20 @@ function Header() {
             Chat with an AI Agent
           </div>
         </div>
+      <div className="flex items-center ">
+        <UserButton
+        afterSignOutUrl="/"
+        appearance={{
+          elements: {
+            avatarBox:
+                  "h-8 w-8 ring-2 ring-gray-200/50 ring-offset-2 rounded-full transition-shadow hover:ring-gray-300/50",
+          },
+        }}
+        />
+      </div>
       </div>  
     </header>
-  )
+  );
 }
 
 export default Header

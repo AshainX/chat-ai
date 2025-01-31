@@ -1,7 +1,6 @@
 "use client";
 
 import Header from "@/components/Header";
-
 import { Authenticated } from "convex/react";
 
 export default function DashboardLayout({
@@ -18,7 +17,7 @@ export default function DashboardLayout({
 
     <div className="flex-1">
         <Header />
-    <main>{children}</main>
+    <main className="bg-red-500 flex-1">{children}</main>
     </div>
     </div>
   );
