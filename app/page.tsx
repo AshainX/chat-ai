@@ -14,7 +14,7 @@ export default function LandingPage() {
             Zitus Chat
           </h1>
           <p className="max-w-[600px] text-lg text-gray-600 md:text-xl/relaxed xl:text-2xl/relaxed">
-            Modern chat application with real-time streamed responses.
+            Your AI Chat Agent for all your needs. Get started today!
             <br />
             <span className="text-gray-400 text-sm">
               Powered by IBM&apos;s WxTools & your favourite LLM&apos;s.
