@@ -1,0 +1,38 @@
+ // Adjust the import path as necessary
+
+import { Doc, Id } from "@/convex/_generated/dataModel";
+import { NavigationContext } from "@/lib/NavigationProvider";
+import { useRouter } from "next/navigation";
+import { use } from "react";
+
+
+function ChatRow({
+    chat,
+    onDelete,
+}: {
+    chat: Doc<"chats">;
+    onDelete: (id: Id<"chats">) => void;
+  }) 
+{
+
+    const router = useRouter();
+    const { closeMobileNav } = use(NavigationContext);
+
+    const handleClick = () => {
+        router.push(`/dashboard/chat/${chat._id}`);
+        closeMobileNav();
+    };
+
+return(
+    <div 
+ className="group rounded-xl border border-gray-200/30 bg-white/50 backdrop-blur-md p-4 hover:bg-white/60 
+ transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
+ onClick={handleClick}
+     >
+    ChatRow
+    </div>
+ );
+ 
+}
+
+export default ChatRow;

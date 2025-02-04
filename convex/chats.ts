@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
+
 export const createChat = mutation({
   args: {
     title: v.string(),
@@ -59,8 +60,7 @@ export const deleteChat = mutation({
   
       const chats = await ctx.db
         .query("chats")
-        .withIndex("by_user", (q) => q.eq("userId", identity.subject))
-        .order("desc")
+        .withIndex("by_user", (q) => q.eq("userId", Number(identity.subject)))
         .collect();
   
       return chats;
