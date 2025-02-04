@@ -25,14 +25,25 @@ function Sidebar() {
         closeMobileNav();
     };
 
-    const handleDeleteChat = async (id: Id<"chats">) => {
-        await deleteChat({ id });
-        // If we're currently viewing this chat, redirect to dashboard
-        if (window.location.pathname.includes(id)) {
-          router.push("/dashboard");
+    // const handleDeleteChat = async (id: Id<"chats">) => {
+    //     await deleteChat({ id });
+    //     // If we're currently viewing this chat, redirect to dashboard
+    //     if (window.location.pathname.includes(id)) {
+    //       router.push("/dashboard");
+    //     }
+    //   };
+      const handleDeleteChat = async (id: Id<"chats">) => {
+        try {
+            await deleteChat({ id });
+            // If we're currently viewing this chat, redirect to dashboard
+            if (window.location.pathname.includes(id)) {
+                router.push("/dashboard");
+            }
+        } catch (error) {
+            console.error("Failed to delete chat:", error);
+            alert("Error deleting chat. Please try again.");
         }
-      };
-
+    };
 
     return (
     <>
