@@ -1,15 +1,44 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-const SHOW_COMMENTS = false;
+const SHOW_COMMENTS = true;
+
+// export const list = query({
+//   args: { chatId: v.id("chats") },
+//   handler: async (ctx, args) => {
+//     const identity = await ctx.auth.getUserIdentity();
+//     if (!identity) {
+//       throw new Error("Not authenticated");
+//     }
+
+//     const messages = await ctx.db
+//       .query("messages")
+//       .withIndex("by_chat", (q) => q.eq("chatId", args.chatId))
+//       .order("asc")
+//       .collect();
+
+//     if (SHOW_COMMENTS) {
+//       console.log("📜 Retrieved messages:", {
+//         chatId: args.chatId,
+//         count: messages.length,
+//       });
+//     }
+
+//     // return messages;
+//     return ctx.db
+//       .query("messages")
+//       .filter(q => q.eq(q.field("chatId"), args.chatId))
+//       .collect();
+//   },
+// });
 
 export const list = query({
   args: { chatId: v.id("chats") },
   handler: async (ctx, args) => {
-    // const identity = await ctx.auth.getUserIdentity();
-    // if (!identity) {
-    //   throw new Error("Not authenticated");
-    // }
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("Not authenticated");
+    }
 
     const messages = await ctx.db
       .query("messages")
@@ -17,7 +46,7 @@ export const list = query({
       .order("asc")
       .collect();
 
-    if (SHOW_COMMENTS) {
+    if (process.env.SHOW_COMMENTS === "true") {
       console.log("📜 Retrieved messages:", {
         chatId: args.chatId,
         count: messages.length,
@@ -27,6 +56,7 @@ export const list = query({
     return messages;
   },
 });
+
 
 export const send = mutation({
   args: {
@@ -100,7 +130,7 @@ export const getLastMessage = query({
     }
 
     const chat = await ctx.db.get(args.chatId);
-    if (!chat || chat.userId !== identity.subject) {
+    if (!chat || chat.userId.toString() !== identity.subject) {
       throw new Error("Unauthorized");
     }
 

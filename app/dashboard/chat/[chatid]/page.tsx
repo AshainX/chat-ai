@@ -6,37 +6,32 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 
 interface ChatPageProps {
-  params: Promise<{
+  params:{
     chatId: Id<"chats">;
-  }>;
+  };
 }
 
 async function ChatPage({ params }: ChatPageProps) {
-  const { chatId } = await params;
-
-  // Get user authentication
-  const { userId } = await auth();
+  const { chatId } = params;
+  const { userId } = await auth();   // Get user authentication
 
   if (!userId) {
     redirect("/");
   }
 
   try {
-    // Get Convex client and fetch chat and messages
-    const convex = getConvexClient();
+      const convex = getConvexClient();// Get Convex client and fetch chat and messages
+    // const chat = await convex.query(api.chats.getChat, { // Check if chat exists & user is authorized to view it
+    //   id: chatId,
+    //   userId,
+    // });
 
-    // Check if chat exists & user is authorized to view it
-    const chat = await convex.query(api.chats.getChat, {
-      id: chatId,
-      userId,
-    });
-
-    if (!chat) {
-      console.log(
-        "⚠️ Chat not found or unauthorized, redirecting to dashboard"
-      );
-      redirect("/dashboard");
-    }
+    // if (!chat) {
+    //   console.log(
+    //     "⚠️ Chat not found or unauthorized, redirecting to dashboard"
+    //   );
+    //   redirect("/dashboard");
+    // }
 
     // Get messages
     const initialMessages = await convex.query(api.messages.list, { chatId });
