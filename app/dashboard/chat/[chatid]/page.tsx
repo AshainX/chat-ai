@@ -12,7 +12,7 @@ interface ChatPageProps {
 }
 
 async function ChatPage({ params }: ChatPageProps) {
-  const { chatId } = params;
+  const { chatId } =  params;
   const { userId } = await auth();   // Get user authentication
 
   if (!userId) {
@@ -20,18 +20,18 @@ async function ChatPage({ params }: ChatPageProps) {
   }
 
   try {
-      const convex = getConvexClient();// Get Convex client and fetch chat and messages
-    // const chat = await convex.query(api.chats.getChat, { // Check if chat exists & user is authorized to view it
-    //   id: chatId,
-    //   userId,
-    // });
+    const convex = getConvexClient();// Get Convex client and fetch chat and messages
+    const chat = await convex.query(api.chats.getChat, { // Check if chat exists & user is authorized to view it
+      _id: chatId,
+      userId: userId,
+    });
 
-    // if (!chat) {
-    //   console.log(
-    //     "⚠️ Chat not found or unauthorized, redirecting to dashboard"
-    //   );
-    //   redirect("/dashboard");
-    // }
+    if (!chat) {
+      console.log(
+        "⚠️ Chat not found or unauthorized, redirecting to dashboard"
+      );
+      redirect("/dashboard");
+    }
 
     // Get messages
     const initialMessages = await convex.query(api.messages.list, { chatId });
