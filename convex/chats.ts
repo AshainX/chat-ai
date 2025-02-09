@@ -102,10 +102,10 @@ export const createChat = mutation({
   });
   
   export const getChat = query({
-    args: { _id: v.id("chats"), userId: v.string() },
+    args: { id: v.id("chats"), userId: v.string() },
     handler: async (ctx, args) => {
       try {
-        const chat = await ctx.db.get(args._id);
+        const chat = await ctx.db.get(args.id);
   
         // Return null if chat doesn't exist or user is not authorized
         if (!chat || chat.userId.toString() !== args.userId) {

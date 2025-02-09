@@ -4,7 +4,7 @@ import { v } from 'convex/values';
 
 export default defineSchema({
     chats: defineTable({
-        _id: v.id("chats"),
+        // _id: v.id("chats"),
         title: v.string(),
         userId: v.string(),
         createdAt: v.number(),

@@ -22,7 +22,7 @@ async function ChatPage({ params }: ChatPageProps) {
   try {
     const convex = getConvexClient();// Get Convex client and fetch chat and messages
     const chat = await convex.query(api.chats.getChat, { // Check if chat exists & user is authorized to view it
-      _id: chatId,
+      id: chatId,
       userId: userId,
     });
 
