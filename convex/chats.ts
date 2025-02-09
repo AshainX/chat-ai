@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-// import { chats } from "./_generated/dataModel";
+//import { chats } from "./_generated/dataModel";
 
 export const createChat = mutation({
   args: {
@@ -14,7 +14,7 @@ export const createChat = mutation({
 
     const chat = await ctx.db.insert("chats", {
       title: args.title,
-      userId: Number(identity.subject),
+      userId: identity.subject,
       createdAt: Date.now(),
     });
 
@@ -63,7 +63,7 @@ export const createChat = mutation({
   
       const chat = await ctx.db.get(args.id);
       console.log("Chat found:", chat); // Debugging the chat found in db
-      if (!chat || chat.userId !== Number(identity.subject)) {
+      if (!chat || chat.userId !== identity.subject) {
         throw new Error("Unauthorized");
       }
   
@@ -86,14 +86,15 @@ export const createChat = mutation({
   export const listChats = query({
     handler: async (ctx) => {
       const identity = await ctx.auth.getUserIdentity();
-      console.log(identity);
+      // console.log(identity);
       if (!identity) {
         throw new Error("Not authenticated");
       }
   
       const chats = await ctx.db
         .query("chats")
-        .withIndex("by_user", (q) => q.eq("userId", Number(identity.subject)))
+        .withIndex("by_user", (q) => q.eq("userId", identity.subject))
+        .order("desc")
         .collect();
   
       return chats;

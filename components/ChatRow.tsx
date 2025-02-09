@@ -31,7 +31,13 @@ return(
  transition-all duration-200 cursor-pointer shadow-sm hover:shadow-md"
  onClick={handleClick}
      >
-    ChatRow
+      <div className="p-4">
+        <div className="flex justify between items-start">chat
+          
+        </div>
+      </div>
+
+    {/* ChatRow
     <Button
             variant="ghost"
             size="icon"
@@ -42,7 +48,7 @@ return(
             }}
           >
             <TrashIcon className="h-4 w-4 text-gray-400 hover:text-red-500 transition-colors" />
-          </Button>
+          </Button> */}
     </div>
  );
  
